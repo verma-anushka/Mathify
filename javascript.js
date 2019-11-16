@@ -11,46 +11,46 @@ var types;
 var images = [ "q1", "q2", "q3", "q4", "q5", "q6"];
 let rightAnsPopUp = document.getElementById("rightAns");
 let wrongAnsPopUp = document.getElementById("wrongAns");
+var gameOverContainer = document.getElementById("gameOver");
+
 let img = document.getElementById("question-img");
 img.innerHTML = '<img id="question-img" src="./images/q0.jpg" width="200" height="200">';
 
-var initialCount 	= 60,
- 	  count 			  = initialCount,
-       timerPause		= false;
+var initialCount = 60,
+ 	count = initialCount,
+    timerPause = false;
 var timerContainer = document.getElementById("timer");
 var value = document.getElementById("count");
 var pause = document.getElementById("pause");
 var lt = document.getElementById("timer-lt");
 var rt = document.getElementById("timer-rt");
 var timeInterval;
-var ticking = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/231853/174721__drminky__watch-tick.wav');
 
-var gameOverContainer = document.getElementById("gameOver");
+// 
+// var ticking = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/231853/174721__drminky__watch-tick.wav');
+// var gameOverSound = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/231853/Elevator_Ding-SoundBible.com-685385892.mp3');
+var ticking = new Audio('sounds/tick-tock.mp3');
+var correct = new Audio('sounds/correct.mp3');
+var incorrect = new Audio('sounds/incorrect.mp3');
+var gameOverSound = new Audio('sounds/gameOver.mp3');
+
 function timer() {	    
-    // console.log("timer");	
-	if (!timerPause) {
-        // console.log("false");
-    ticking.play();
-    lt.style.animationPlayState = "running";
-      rt.style.animationPlayState = "running";
+
+    if (!timerPause) {
+        ticking.play();
+        lt.style.animationPlayState = "running";
+        rt.style.animationPlayState = "running";
 	  	count = count - 1;
 	  	if (count <= -1) {
 	  		count = initialCount;
         var el = document.getElementById("circle-timer");
-	        // var el = $(".circle-timer");
 	        el.before( el.cloneNode(true) ).remove();
 	  	} 
     value.innerHTML = count;
-	  	// $(".timer .count").text(count);
   	}else{
-        console.log("true");
-
       lt.style.animationPlayState = "paused";
       rt.style.animationPlayState = "paused";
     }
-
-
-    console.log(count);
     if(count === 0){
         gameOver();
     }
@@ -75,9 +75,6 @@ document.getElementById("start").onclick = function(){
     }else{
         // Start button
         isPlay = true;
-
-        // Hiding Game Over display box
-        // gameOver.style.display = "none";        
 
         // Initializing the value of score
         score = 0;
@@ -116,7 +113,9 @@ for(var i=1; i<=4; i++){
             // Right answer 
             if(this.innerHTML == rightAnswer){
 
-                console.log(rightAnswer)
+                console.log(rightAnswer);
+                correct.play();
+
                 // Update score
                 score++;
                 document.getElementById("score").innerHTML = "Score:" + score;
@@ -134,6 +133,8 @@ for(var i=1; i<=4; i++){
             }
             // Wrong answer
             else{
+
+                incorrect.play();
                 wrongAnsPopUp.style.display = "block";
                 rightAnsPopUp.style.display = "none";
                 setTimeout(function(){
@@ -144,23 +145,10 @@ for(var i=1; i<=4; i++){
     };
 }
 
-
-// function countdown(){
-
-//     output = setInterval(function(){
-
-//         timeLeft -=1;
-//         document.getElementById("time").innerHTML = timeLeft;
-
-//         if(timeLeft == 0){
-//             gameOver();
-//         }
-//     }, 1000);
-// }
-
 function gameOver(){
     isPlay = false;
 
+    gameOverSound.play();
     console.log("game over");
     // Stopping the countdown
     clearInterval(timeInterval);
