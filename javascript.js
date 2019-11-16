@@ -1,6 +1,8 @@
+let body = document.getElementsByTagName("body")[0];
+
 var isPlay = false;
 var score;
-var timeLeft;
+// var timeLeft;
 var rightAnswer;
 var rightAnswer1;
 var rightAnswer2;
@@ -12,8 +14,59 @@ let wrongAnsPopUp = document.getElementById("wrongAns");
 let img = document.getElementById("question-img");
 img.innerHTML = '<img id="question-img" src="./images/q0.jpg" width="200" height="200">';
 
+var initialCount 	= 60,
+ 	  count 			  = initialCount,
+       timerPause		= false;
+var timerContainer = document.getElementById("timer");
+var value = document.getElementById("count");
+var pause = document.getElementById("pause");
+var lt = document.getElementById("timer-lt");
+var rt = document.getElementById("timer-rt");
+var timeInterval;
+var ticking = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/231853/174721__drminky__watch-tick.wav');
+
+var gameOverContainer = document.getElementById("gameOver");
+function timer() {	    
+    // console.log("timer");	
+	if (!timerPause) {
+        // console.log("false");
+    ticking.play();
+    lt.style.animationPlayState = "running";
+      rt.style.animationPlayState = "running";
+	  	count = count - 1;
+	  	if (count <= -1) {
+	  		count = initialCount;
+        var el = document.getElementById("circle-timer");
+	        // var el = $(".circle-timer");
+	        el.before( el.cloneNode(true) ).remove();
+	  	} 
+    value.innerHTML = count;
+	  	// $(".timer .count").text(count);
+  	}else{
+        console.log("true");
+
+      lt.style.animationPlayState = "paused";
+      rt.style.animationPlayState = "paused";
+    }
+
+
+    console.log(count);
+    if(count === 0){
+        gameOver();
+    }
+}
+pause.addEventListener("click", function(){
+  	pause.classList.toggle('paused');
+if (pause.classList.contains('paused')) {
+		timerPause = true;
+	} else {
+		timerPause = false;
+	}
+});
+
 // On clicking the Start/Restart button
 document.getElementById("start").onclick = function(){
+
 
     // Checking if the user is playing/not
     if (isPlay){
@@ -24,25 +77,30 @@ document.getElementById("start").onclick = function(){
         isPlay = true;
 
         // Hiding Game Over display box
-        document.getElementById("gameOver").style.display = "none";        
+        // gameOver.style.display = "none";        
 
         // Initializing the value of score
         score = 0;
         document.getElementById("score_value").innerHTML = score;
 
         // Displaying the countdown box
-        document.getElementById("timeLeft").style.display = "block";
+        // document.getElementById("timeLeft").style.display = "block";
         
         // Initializing the value of time left
-        timeLeft = 20;
-        document.getElementById("time").innerHTML = timeLeft;
+        // timeLeft = 20;
+        // document.getElementById("time").innerHTML = timeLeft;
 
         // Start -> Restart
         document.getElementById("start").innerHTML = "Restart";
 
-        // Countdown Counter
-        countdown();
+        ticking.play();
 
+        // Countdown Counter
+        timerContainer.classList.remove("no-show");
+        timer();
+        timeInterval = setInterval(timer, 1000);
+        lt.style.animationPlayState = "paused";
+        rt.style.animationPlayState = "paused";
         // Generating MCQs
         generateMCQs();
     }
@@ -87,33 +145,37 @@ for(var i=1; i<=4; i++){
 }
 
 
-function countdown(){
+// function countdown(){
 
-    output = setInterval(function(){
+//     output = setInterval(function(){
 
-        timeLeft -=1;
-        document.getElementById("time").innerHTML = timeLeft;
+//         timeLeft -=1;
+//         document.getElementById("time").innerHTML = timeLeft;
 
-        if(timeLeft == 0){
-            gameOver();
-        }
-    }, 1000);
-}
+//         if(timeLeft == 0){
+//             gameOver();
+//         }
+//     }, 1000);
+// }
 
 function gameOver(){
+    isPlay = false;
 
+    console.log("game over");
     // Stopping the countdown
-    clearInterval(output)
+    clearInterval(timeInterval);
+    timerContainer.classList.add("no-show");
+    gameOverContainer.classList.remove("no-show");
 
-    // Game Over message
-    document.getElementById("gameOver").style.display = "block";
-    document.getElementById("gameOver").innerHTML = "<p>Game Over!!</p><p>Final Score: " + score + "</p>"
+    body.style.opacity = '0.7';
+    gameOverContainer.style.opacity = "1";
 
-    document.getElementById("timeLeft").style.display = "none";
+    document.getElementById("finalScore").innerHTML = score;
+
+    document.getElementById("timer").style.display = "none";
     rightAnsPopUp.style.display = "none";
     wrongAnsPopUp.style.display = "none";
 
-    isPlay = false;
     document.getElementById("start").innerHTML = "Start";
     
 }

@@ -7,7 +7,7 @@ html{
   height: 100%;
 }
 body{
-  height: 100%;
+  /* height: 100%; */
   text-align: center;
   align-items: center;
   margin: 0;
@@ -816,6 +816,97 @@ body{
   text-align: center;
   padding: 0;
 }
+@keyframes timer-slide-lt {
+  0% {
+    transform: rotate(135deg);
+ }
+  50% {
+    transform: rotate(135deg);
+ }
+  100% {
+    transform: rotate(315deg);
+ }
+}
+@keyframes timer-slide-rt {
+  0% {
+    transform: rotate(-45deg);
+ }
+  50% {
+    transform: rotate(135deg);
+ }
+  100% {
+    transform: rotate(135deg);
+ }
+}
+.timer {
+  right: 0;
+  top: 0;
+  /* width: 100%;
+  height: 100%; */
+  position: absolute;
+}
+.timer .circle-timer {
+  width: 200px;
+  height: 200px;
+  margin: 2rem auto;
+  position: relative;
+  cursor: pointer;
+}
+.timer .circle-timer .timer-slot {
+  position: relative;
+  width: 100px;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  float: left;
+}
+.timer .circle-timer .timer-slot .timer-lt, .timer .circle-timer .timer-slot .timer-rt {
+  border-radius: 50%;
+  position: relative;
+  top: 50%;
+  left: 0;
+  z-index: 15;
+  border: 10px solid white;
+  width: 180px;
+  height: 180px;
+  margin-left: -100px;
+  margin-top: -100px;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  z-index: 5;
+}
+.timer .circle-timer .timer-slot .timer-lt {
+  animation: 60s linear infinite timer-slide-lt;
+  left: 100%;
+}
+.timer .circle-timer .timer-slot .timer-rt {
+  animation: 60s linear infinite timer-slide-rt;
+}
+.timer .circle-timer .count {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 4rem;
+  color: white;
+  text-align: center;
+  line-height: 200px;
+  font-family: sans-serif;
+}
+.timer .circle-timer .paused .timer-lt, .timer .circle-timer .paused .timer-rt {
+  animation-play-state: paused;
+  transition: all 0.5s;
+}
+.timer .circle-timer.paused .timer-lt, .timer .circle-timer:hover .timer-lt, .timer .circle-timer.paused .timer-rt, .timer .circle-timer:hover .timer-rt {
+  border: 10px solid rgba(255, 255, 255, .5);
+  border-left-color: transparent;
+  border-top-color: transparent;
+  transition: all 0.5s;
+}
+.timer .circle-timer.paused .count {
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.5s;
+}
+
 #popups{
   position: absolute;
   left: 50%;
@@ -826,9 +917,9 @@ body{
 }
 #gameOver{
   position: absolute;
-  top: 50%;
-  left: 32.5%;
-  font-size: 80px;
+  top: 30%;
+  left: 40%;
+  font-size: 60px;
   margin: 0 auto;
 }
 #gameOver p{

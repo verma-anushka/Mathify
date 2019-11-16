@@ -76,13 +76,27 @@
         <div id="score">
             Score: <span id="score_value">0</span>
         </div>
-        <div id="timeLeft">Time Remaining:<span id="time">60</span>sec</div>
+        <!-- <div id="timeLeft">Time Remaining:<span id="time">60</span>sec</div> -->
     </div>
 
+
+    <div id="timer" class="timer no-show">
+        <div id="circle-timer" class="circle-timer">
+            <div class="timer-slot">
+                <div id="timer-lt" class="timer-lt"> </div>
+            </div>
+            <div class="timer-slot">
+                <div id="timer-rt" class="timer-rt"></div>
+            </div>
+            <div id="count" class="count"></div>
+        </div>
+        <div class="paused" id="pause">pause</div>
+    </div>
+        
     <!--  -->
-    <div id="gameOver">
-        <!-- <p>Game Over!!</p>
-            <p>Your score is <span>20</span></p> -->
+    <div id="gameOver" class="no-show">
+        <p>Time's Up!</p>
+        <p>Score: <span id="finalScore"></span></p>
     </div>
 
     <script src="javascript.js"></script>
