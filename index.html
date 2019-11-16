@@ -50,8 +50,12 @@
         <figure id="question-container">
             <div id="question-img"></div>
             <figcaption class="question-area" id="question"></figcaption>
+            <div id="popups">
+                    <div id="rightAns" class="no-show">Correct!</div>
+                    <div id="wrongAns" class="no-show">Try Again!</div>
+                </div>
         </figure>
-        <section class="options">
+        <section class="options" id="options">
             <figure class="option" id="option1"></figure>
             <figure class="option" id="option2"></figure>
             <figure class="option" id="option3"></figure>
@@ -59,27 +63,18 @@
         </section>
     </div>
 
-    <!--  -->
-    <div id="popups">
-        <div id="rightAns" class="no-show">Correct!</div>
-        <div id="wrongAns" class="no-show">Try Again!</div>
-    </div>
-    <div id="start">Start</div>
+    <div class="option" id="start">Start</div>
     <!-- <div id="levels">
             <button class="start">Easy</button>
             <button class="start">Difficult</button>
         </div> -->
     <!-- class="no-show" -->
 
-    <!--  -->
-    <div id="game-details" >
-        <div id="score">
-            Score: <span id="score_value">0</span>
+    <div id="score" class="score no-show">
+        <div id="circle-score" class="circle-score">
+            <span id="score-value">0</span>
         </div>
-        <!-- <div id="timeLeft">Time Remaining:<span id="time">60</span>sec</div> -->
     </div>
-
-
     <div id="timer" class="timer no-show">
         <div id="circle-timer" class="circle-timer">
             <div class="timer-slot">
@@ -90,10 +85,13 @@
             </div>
             <div id="count" class="count"></div>
         </div>
-        <div class="paused" id="pause">pause</div>
+        <button class="button" id="pause"></button>
     </div>
-        
-    <!--  -->
+  
+    <div id="pausedMsg" class="no-show">
+        <p>Paused!</p>
+    </div>
+          
     <div id="gameOver" class="no-show">
         <p>Time's Up!</p>
         <p>Score: <span id="finalScore"></span></p>

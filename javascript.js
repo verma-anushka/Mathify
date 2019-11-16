@@ -2,19 +2,19 @@ let body = document.getElementsByTagName("body")[0];
 
 var isPlay = false;
 var score;
-// var timeLeft;
 var rightAnswer;
 var rightAnswer1;
 var rightAnswer2;
 var types;
-
+var totalOptions = 4;
 var images = [ "q1", "q2", "q3", "q4", "q5", "q6"];
 let rightAnsPopUp = document.getElementById("rightAns");
 let wrongAnsPopUp = document.getElementById("wrongAns");
 var gameOverContainer = document.getElementById("gameOver");
-
+var allOptions = document.getElementsByClassName("option");
+        
 let img = document.getElementById("question-img");
-img.innerHTML = '<img id="question-img" src="./images/q0.jpg" width="200" height="200">';
+img.innerHTML = '<img id="question-img" src="./images/q0.jpg" width="400" height="200">';
 
 var initialCount = 60,
  	count = initialCount,
@@ -24,9 +24,10 @@ var value = document.getElementById("count");
 var pause = document.getElementById("pause");
 var lt = document.getElementById("timer-lt");
 var rt = document.getElementById("timer-rt");
+
+var scoreContainer = document.getElementById("score");
 var timeInterval;
 
-// 
 // var ticking = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/231853/174721__drminky__watch-tick.wav');
 // var gameOverSound = new Audio('https://s3-us-west-2.amazonaws.com/s.cdpn.io/231853/Elevator_Ding-SoundBible.com-685385892.mp3');
 var ticking = new Audio('sounds/tick-tock.mp3');
@@ -38,18 +39,28 @@ function timer() {
 
     if (!timerPause) {
         ticking.play();
+        body.style.opacity = "1";
+        document.getElementById("pausedMsg").classList.add("no-show");
+
+        document.getElementById("question").classList.remove("no-show");
+        document.getElementById("options").classList.remove("no-show");
         lt.style.animationPlayState = "running";
         rt.style.animationPlayState = "running";
 	  	count = count - 1;
 	  	if (count <= -1) {
 	  		count = initialCount;
-        var el = document.getElementById("circle-timer");
-	        el.before( el.cloneNode(true) ).remove();
+            // var el = document.getElementById("circle-timer");
+	        // el.before( el.cloneNode(true) ).remove();
 	  	} 
-    value.innerHTML = count;
+        value.innerHTML = count;
   	}else{
-      lt.style.animationPlayState = "paused";
-      rt.style.animationPlayState = "paused";
+        document.getElementById("question").classList.add("no-show");
+        // document.getElementById("options").classList.add("no-show");
+        document.getElementById("options").style.opacity = "0.05";
+        document.getElementById("pausedMsg").classList.remove("no-show");
+
+        lt.style.animationPlayState = "paused";
+        rt.style.animationPlayState = "paused";
     }
     if(count === 0){
         gameOver();
@@ -57,16 +68,14 @@ function timer() {
 }
 pause.addEventListener("click", function(){
   	pause.classList.toggle('paused');
-if (pause.classList.contains('paused')) {
+    if (pause.classList.contains('paused')) {
 		timerPause = true;
 	} else {
 		timerPause = false;
 	}
 });
 
-// On clicking the Start/Restart button
 document.getElementById("start").onclick = function(){
-
 
     // Checking if the user is playing/not
     if (isPlay){
@@ -78,26 +87,21 @@ document.getElementById("start").onclick = function(){
 
         // Initializing the value of score
         score = 0;
-        document.getElementById("score_value").innerHTML = score;
-
-        // Displaying the countdown box
-        // document.getElementById("timeLeft").style.display = "block";
-        
-        // Initializing the value of time left
-        // timeLeft = 20;
-        // document.getElementById("time").innerHTML = timeLeft;
+        document.getElementById("score-value").innerHTML = score;
 
         // Start -> Restart
         document.getElementById("start").innerHTML = "Restart";
 
-        ticking.play();
-
         // Countdown Counter
         timerContainer.classList.remove("no-show");
+        ticking.play();
         timer();
         timeInterval = setInterval(timer, 1000);
         lt.style.animationPlayState = "paused";
         rt.style.animationPlayState = "paused";
+
+        scoreContainer.classList.remove("no-show");
+
         // Generating MCQs
         generateMCQs();
     }
@@ -107,7 +111,6 @@ document.getElementById("start").onclick = function(){
 for(var i=1; i<=4; i++){
     document.getElementById("option" + i).onclick = function(){
 
-        // If playing
         if(isPlay){
 
             // Right answer 
@@ -118,7 +121,7 @@ for(var i=1; i<=4; i++){
 
                 // Update score
                 score++;
-                document.getElementById("score").innerHTML = "Score:" + score;
+                document.getElementById("score-value").innerHTML = score;
 
                 // Showing popup message for a sec
                 rightAnsPopUp.style.display = "block";
@@ -133,7 +136,6 @@ for(var i=1; i<=4; i++){
             }
             // Wrong answer
             else{
-
                 incorrect.play();
                 wrongAnsPopUp.style.display = "block";
                 rightAnsPopUp.style.display = "none";
@@ -147,25 +149,20 @@ for(var i=1; i<=4; i++){
 
 function gameOver(){
     isPlay = false;
-
     gameOverSound.play();
     console.log("game over");
     // Stopping the countdown
     clearInterval(timeInterval);
     timerContainer.classList.add("no-show");
+    scoreContainer.classList.add("no-show");
     gameOverContainer.classList.remove("no-show");
-
     body.style.opacity = '0.7';
     gameOverContainer.style.opacity = "1";
-
     document.getElementById("finalScore").innerHTML = score;
-
-    document.getElementById("timer").style.display = "none";
     rightAnsPopUp.style.display = "none";
     wrongAnsPopUp.style.display = "none";
 
     document.getElementById("start").innerHTML = "Start";
-    
 }
 
 function generateAnswers(no1,no2,typesIndex){
@@ -174,26 +171,18 @@ function generateAnswers(no1,no2,typesIndex){
     var a = parseInt(no1);
     var b = parseInt(no2);
 
-    // typesIndex = Math.round((types.length-1)*Math.random());
-
     switch(typesIndex){
         case 0: ans = a + b;
-                // console.log("ans: " + ans);
                 break;
         case 1: ans = a - b;
-                // console.log("ans: " + ans);
                 break;
         case 2: ans = a * b;
-                // console.log("ans: " + ans);
                 break;
         case 3: ans = a * b;
-                // console.log("ans: " + ans);
                 break;
         case 4: ans = (a / b).toFixed(2);
-                // console.log("ans: " + ans);
                 break;
         // case 5: ans = Math.pow(a,b);
-        //         console.log("power: " + Math.pow(a,b));
         //         break;
     }
     return ans;
@@ -203,16 +192,14 @@ function generateMCQs(){
 
     var answers = [];
     types = ['+','-','*','*','/'];
+
     // Random numbers between 10 and 20
     var x = Math.round(9*Math.random()) + 10;
-
     // Random numbers between 5 and 15
     var y = Math.round(9*Math.random()) + 5;
     
-    // var types = ['+','-','*','*','/','^'];
     typesIndex = Math.round((types.length-1)*Math.random());
     imgIndex = Math.round((images.length-1)*Math.random());
-
 
     // For power
     if(typesIndex == 5){
@@ -225,12 +212,8 @@ function generateMCQs(){
         rightAnswer = generateAnswers(x,y,typesIndex);
     }
     answers.push(rightAnswer)
-
-    console.log(img);
     
-    img.innerHTML = '<img id="question-img" src="./images/'+images[imgIndex]+'.jpg" width="200" height="200">';
-    console.log(img.innerHTML);
-    
+    img.innerHTML = '<img id="question-img" src="./images/'+images[imgIndex]+'.jpg" width="400" height="200">';
     
     document.getElementById("question").innerHTML = "( " + x + types[typesIndex] + y + " )";
     rightIndex = Math.round(3*Math.random()) + 1;
@@ -238,48 +221,30 @@ function generateMCQs(){
     // Assign the right answer to one of the options
     document.getElementById("option" + rightIndex).innerHTML = rightAnswer;
 
-    var wrongAnswer = [];
-    var flag = false;
     var i=1;
     // Assign wrong answer to the remaining options
-    while (i<=4){
+    while (i <= totalOptions){
 
         if( i != rightIndex){
+            // var w;
+            var wrongAnswer;
 
-            console.log("diff");
-            var w;
-            var w1 = x + Math.round(4*Math.random()) + 1;
-            var w2 = y - Math.round(4*Math.random()) + 1;
-
-            // rightAnswer = generateAnswers(x,y,typesIndex);
-
-            console.log(types[typesIndex]);
-
-            console.log("w1: " + w1);
-            console.log("w2: " + w2);
-            console.log("rightAns: " + rightAnswer);
-
-            w = generateAnswers(w1,w2,typesIndex);
-            wrongAnswer.push(w);
-            console.log("wrongAns: " + w);
-            console.log(wrongAnswer);
-            // for(j=0; j<wrongAnswer.length; j++){
-            //     console.log("in");
-            //     if(wrongAnswer[j] === w){
-            //         flag = true;
-            //         break;
-            //     }
-            // }
-            // if(flag){
-            //     document.getElementById("option" + i).innerHTML = w;
-            //     i++;
-            // }
-            document.getElementById("option" + i).innerHTML = w;
+            do{
+                var w1 = x + Math.round(4*Math.random() + 1);
+                var w2 = y - Math.round(4*Math.random() + 1);
+                console.log("w1: " + w1);
+                console.log("w2: " + w2);
+                console.log("rightAns: " + rightAnswer);
+                wrongAnswer = generateAnswers(w1,w2,typesIndex);
+                console.log("wrongAns: " + wrongAnswer);
+            }while( answers.indexOf(wrongAnswer) > -1 )
+            
+            document.getElementById("option" + i).innerHTML = wrongAnswer;
+            answers.push(wrongAnswer);
+            console.log(answers);
             i++;
         }else{
-            console.log("same");
             i++;
-
             continue;
         }
         

@@ -801,12 +801,13 @@ body{
 }
 .container{
   text-align: center;
-  margin: 10% auto 0;
+  margin: 9.5% auto 0;
 }
 #question-container{
-  /* height: 290px; */
+  min-height: 290px;
   width: auto;
   text-align: center;
+  margin-bottom: 38px;
 }
 #question-container img{
   margin-top: 10px;
@@ -816,33 +817,29 @@ body{
   text-align: center;
   padding: 0;
 }
-@keyframes timer-slide-lt {
-  0% {
-    transform: rotate(135deg);
- }
-  50% {
-    transform: rotate(135deg);
- }
-  100% {
-    transform: rotate(315deg);
- }
+.score{
+  padding-top: 34px;
+  left: 10px;
+  top: 0;
+  position: absolute;
 }
-@keyframes timer-slide-rt {
-  0% {
-    transform: rotate(-45deg);
- }
-  50% {
-    transform: rotate(135deg);
- }
-  100% {
-    transform: rotate(135deg);
- }
+.score .circle-score #score-value{
+  font-size: 4rem;
+  color: white;
+  text-align: center;
+  line-height: 180px;
+  font-family: sans-serif;
+}
+.score .circle-score{
+  border: 10px solid white;
+  width: 180px;
+  height: 180px;
+  text-align: center;
+  border-radius: 50%;
 }
 .timer {
-  right: 0;
+  right: 10px;
   top: 0;
-  /* width: 100%;
-  height: 100%; */
   position: absolute;
 }
 .timer .circle-timer {
@@ -856,11 +853,11 @@ body{
   position: relative;
   width: 100px;
   height: 200px;
-  display: inline-block;
   overflow: hidden;
   float: left;
 }
-.timer .circle-timer .timer-slot .timer-lt, .timer .circle-timer .timer-slot .timer-rt {
+.timer .circle-timer .timer-slot .timer-lt, 
+.timer .circle-timer .timer-slot .timer-rt {
   border-radius: 50%;
   position: relative;
   top: 50%;
@@ -892,28 +889,64 @@ body{
   line-height: 200px;
   font-family: sans-serif;
 }
-.timer .circle-timer .paused .timer-lt, .timer .circle-timer .paused .timer-rt {
-  animation-play-state: paused;
-  transition: all 0.5s;
+@keyframes timer-slide-lt {
+  0% {
+    transform: rotate(135deg);
+ }
+  50% {
+    transform: rotate(135deg);
+ }
+  100% {
+    transform: rotate(315deg);
+ }
 }
-.timer .circle-timer.paused .timer-lt, .timer .circle-timer:hover .timer-lt, .timer .circle-timer.paused .timer-rt, .timer .circle-timer:hover .timer-rt {
-  border: 10px solid rgba(255, 255, 255, .5);
-  border-left-color: transparent;
-  border-top-color: transparent;
-  transition: all 0.5s;
+@keyframes timer-slide-rt {
+  0% {
+    transform: rotate(-45deg);
+ }
+  50% {
+    transform: rotate(135deg);
+ }
+  100% {
+    transform: rotate(135deg);
+ }
 }
-.timer .circle-timer.paused .count {
-  color: rgba(255, 255, 255, 0.5);
-  transition: all 0.5s;
-}
-
-#popups{
+.button {
   position: absolute;
-  left: 50%;
-  top: 10%;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 25px;
+  border-color: transparent transparent transparent #FFF;
+  transition: 100ms all ease;
+  cursor: pointer;
+  border-style: double;
+  border-width: 0px 0 0px 25px;
+  outline: none;
+}
+.button.paused {
+  border-style: solid;
+  border-width: 12px 0 12px 18px;
+}
+.button:hover {
+  border-color: transparent transparent transparent #FFF;
 }
 .no-show{
   display: none;
+}
+#start{
+  transform: rotate(0);
+}
+#start:hover{
+  transform: scale(1.5);
+}
+#pausedMsg{
+  position: absolute;
+  top: 43%;
+  left: 40%;
+  font-size: 60px;
+  margin: 0 auto;
 }
 #gameOver{
   position: absolute;
@@ -921,6 +954,7 @@ body{
   left: 40%;
   font-size: 60px;
   margin: 0 auto;
+  color: #fff;
 }
 #gameOver p{
   margin: 0;
@@ -941,7 +975,7 @@ body{
   padding: 0;
 }
 .question-area {
-  height: 50px;
+  height: 30px;
   text-align: center;
   font-family: "Marker Felt",sans-serif;
   font-size: 28px;
@@ -975,5 +1009,6 @@ body{
   transform: translate(60px, -5px) rotate(42deg);
 }
 .option:hover {
+  cursor: pointer;
   transform: scale(1.5);
 }
