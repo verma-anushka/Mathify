@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mathify</title>
 
     <link rel="stylesheet" href="style.css">
-    <title>Mathify</title>
 </head>
 
 <body>
 
-    <!-- HEADER -->
+    <!-- Heading -->
     <div id="ui">
         <div class="text">MATHIFY</div>
         <div class="text">MATHIFY</div>
@@ -45,7 +45,7 @@
         <div class="text">MATHIFY</div>
     </div>
 
-    <!--  -->
+    <!-- MCQs -->
     <div class="container">
         <figure id="question-container">
             <div id="question-img"></div>
@@ -63,18 +63,14 @@
         </section>
     </div>
 
-    <div class="option" id="start">Start</div>
-    <!-- <div id="levels">
-            <button class="start">Easy</button>
-            <button class="start">Difficult</button>
-        </div> -->
-    <!-- class="no-show" -->
-
+    <!-- Score -->
     <div id="score" class="score no-show">
         <div id="circle-score" class="circle-score">
             <span id="score-value">0</span>
         </div>
     </div>
+
+    <!-- Countdown -->
     <div id="timer" class="timer no-show">
         <div id="circle-timer" class="circle-timer">
             <div class="timer-slot">
@@ -87,19 +83,32 @@
         </div>
         <button class="button" id="pause"></button>
     </div>
+
+    <!-- Start Game -->
+    <div class="option" id="start">Start</div>
+    <!-- <div id="levels">
+        <button class="start">Easy</button>
+        <button class="start">Difficult</button>
+    </div> -->
   
+    <!-- Pause Game -->
     <div id="pausedMsg" class="no-show">
         <p>Paused!</p>
     </div>
-          
+
+    <!-- End Game -->
     <div id="gameOver" class="no-show">
-        <p>Time's Up!</p>
-        <p>Score: <span id="finalScore"></span></p>
+        <div class="container">
+            <img src="./images/gameOver.jpg">
+            <div class="content">
+                <p>Time's Up!</p>
+                <p>Score: <span id="finalScore"></span></p>
+            </div>
+        </div>
     </div>
 
     <script src="javascript.js"></script>
-    </div>
+    <noscript>Your broswer does not support JavaScript!</noscript>
 
 </body>
-
 </html>
